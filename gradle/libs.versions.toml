@@ -1,0 +1,5 @@
+[libraries]
+junit = "org.junit.jupiter:junit-jupiter:5.8.2"
+
+[plugins]
+spotbugs = "com.github.spotbugs:5.0.6"
