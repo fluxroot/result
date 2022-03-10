@@ -1,5 +1,6 @@
 plugins {
 	`java-library`
+	`java-test-fixtures`
 	checkstyle
 	pmd
 	alias(libs.plugins.spotbugs)
@@ -14,6 +15,9 @@ repositories {
 
 dependencies {
 	testImplementation(libs.junit)
+	testImplementation(libs.assertj)
+	testImplementation(libs.mockito)
+	testFixturesImplementation(libs.assertj)
 }
 
 java {

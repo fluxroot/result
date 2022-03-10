@@ -1,5 +1,7 @@
 [libraries]
 junit = "org.junit.jupiter:junit-jupiter:5.8.2"
+assertj = "org.assertj:assertj-core:3.22.0"
+mockito = "org.mockito:mockito-core:4.4.0"
 
 [plugins]
 spotbugs = "com.github.spotbugs:5.0.6"
