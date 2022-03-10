@@ -24,6 +24,7 @@ class ResultTest {
 	private static final SomeFailure SOME_FAILURE = new SomeFailure();
 	private static final SomeFailure SECOND_FAILURE = new SomeFailure();
 	private static final AnotherFailure ANOTHER_FAILURE = new AnotherFailure();
+	private static final SomeException SOME_EXCEPTION = new SomeException();
 
 	@Test
 	void shouldReturnResult() {
@@ -185,14 +186,14 @@ class ResultTest {
 	@Test
 	void shouldReturnResultFromOrElseThrowIfPresent() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		SomeResult someResult = result.orElseThrow(someFailure -> new SomeException());
+		SomeResult someResult = result.orElseThrow(someFailure -> SOME_EXCEPTION);
 		assertThat(someResult).isSameAs(SOME_RESULT);
 	}
 
 	@Test
 	void shouldThrowFromOrElseThrowIfFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		Throwable throwable = catchThrowable(() -> result.orElseThrow(someFailure -> new SomeException()));
+		Throwable throwable = catchThrowable(() -> result.orElseThrow(someFailure -> SOME_EXCEPTION));
 		assertThat(throwable).isInstanceOf(SomeException.class);
 	}
 
