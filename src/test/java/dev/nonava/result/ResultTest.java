@@ -20,7 +20,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 class ResultTest {
-
 	private static final SomeResult SOME_RESULT = new SomeResult();
 	private static final SomeResult SECOND_RESULT = new SomeResult();
 	private static final AnotherResult ANOTHER_RESULT = new AnotherResult();
