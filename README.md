@@ -31,8 +31,8 @@ String result = Result.of("Success!")
     .map(r -> "What a " + r)
     .filter(r -> r.equals("Hello World!"), "Did not match")
     .peekFailure(System.out::println)
-    .orElseGet(f -> "Still a success!");
-assertEquals(result, "Still a success!");
+    .orElseGet(f -> f + ", but still a success!");
+assertEquals(result, "Did not match, but still a success!");
 ```
 
 
