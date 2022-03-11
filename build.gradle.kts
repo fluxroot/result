@@ -45,3 +45,8 @@ tasks.pmdTest {
 	ruleSets = listOf()
 	ruleSetConfig = resources.text.fromFile("$rootDir/config/pmd/test-ruleset.xml")
 }
+
+tasks.pmdTestFixtures {
+	ruleSets = listOf()
+	ruleSetConfig = resources.text.fromFile("$rootDir/config/pmd/testFixtures-ruleset.xml")
+}

@@ -248,5 +248,6 @@ class ResultTest {
 	}
 
 	private static final class SomeException extends RuntimeException {
+		private static final long serialVersionUID = -1831212454526635612L;
 	}
 }

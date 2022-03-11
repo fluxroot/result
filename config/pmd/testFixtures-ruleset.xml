@@ -3,7 +3,7 @@
          xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
-    <description>test ruleset</description>
+    <description>testFixtures ruleset</description>
 
     <rule ref="category/java/bestpractices.xml"/>
 
@@ -16,11 +16,7 @@
         <exclude name="DefaultPackage"/>
         <exclude name="AtLeastOneConstructor"/>
         <exclude name="OnlyOneReturn"/>
-        <exclude name="LongVariable"/>
-        <exclude name="ClassNamingConventions"/>
-        <exclude name="FieldNamingConventions"/>
         <exclude name="LinguisticNaming"/>
-        <exclude name="TooManyStaticImports"/>
     </rule>
 
     <rule ref="category/java/design.xml">
