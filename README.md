@@ -6,6 +6,29 @@ Copyright 2022 Phokham Nonava
 ![Build](https://github.com/fluxroot/result/actions/workflows/build.yml/badge.svg)
 
 
+Installation
+------------
+Result artifacts are available in the Maven Central repository.
+
+Use the following code snippet in Maven:
+
+```xml
+<dependency>
+    <groupId>dev.nonava.result</groupId>
+    <artifactId>result</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+Use the following code snippet in Gradle:
+
+```kotlin
+dependencies {
+    implementation("dev.nonava.result:result:1.0.0")
+}
+```
+
+
 Usage
 -----
 Create a `Result` using one of the two static factory methods.
