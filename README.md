@@ -8,7 +8,7 @@ Copyright 2022 Phokham Nonava
 
 Installation
 ------------
-Result artifacts are available in the Maven Central repository.
+Result 1.x requires Java 8 or higher. All artifacts are available in the Maven Central repository.
 
 Use the following code snippet in Maven:
 
