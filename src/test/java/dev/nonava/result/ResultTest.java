@@ -46,7 +46,7 @@ class ResultTest {
 
 	@Test
 	void shouldConsumeResultIfResult() {
-		SomeResultConsumer consumer = mock(SomeResultConsumer.class);
+		BaseResultConsumer consumer = mock(BaseResultConsumer.class);
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
 		result.ifPresent(consumer);
 		verify(consumer).accept(SOME_RESULT);
@@ -54,7 +54,7 @@ class ResultTest {
 
 	@Test
 	void shouldNotConsumeResultIfFailure() {
-		SomeResultConsumer consumer = mock(SomeResultConsumer.class);
+		BaseResultConsumer consumer = mock(BaseResultConsumer.class);
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
 		result.ifPresent(consumer);
 		verify(consumer, never()).accept(any());
@@ -62,7 +62,7 @@ class ResultTest {
 
 	@Test
 	void shouldConsumeFailureIfFailure() {
-		SomeFailureConsumer consumer = mock(SomeFailureConsumer.class);
+		BaseFailureConsumer consumer = mock(BaseFailureConsumer.class);
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
 		result.ifFailure(consumer);
 		verify(consumer).accept(SOME_FAILURE);
@@ -70,7 +70,7 @@ class ResultTest {
 
 	@Test
 	void shouldNotConsumeFailureIfResult() {
-		SomeFailureConsumer consumer = mock(SomeFailureConsumer.class);
+		BaseFailureConsumer consumer = mock(BaseFailureConsumer.class);
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
 		result.ifFailure(consumer);
 		verify(consumer, never()).accept(any());
@@ -78,7 +78,7 @@ class ResultTest {
 
 	@Test
 	void shouldPeekIntoResultIfResult() {
-		SomeResultConsumer consumer = mock(SomeResultConsumer.class);
+		BaseResultConsumer consumer = mock(BaseResultConsumer.class);
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
 		result.peek(consumer);
 		verify(consumer).accept(SOME_RESULT);
@@ -86,7 +86,7 @@ class ResultTest {
 
 	@Test
 	void shouldNotPeekIntoResultIfFailure() {
-		SomeResultConsumer consumer = mock(SomeResultConsumer.class);
+		BaseResultConsumer consumer = mock(BaseResultConsumer.class);
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
 		result.peek(consumer);
 		verify(consumer, never()).accept(any());
@@ -94,7 +94,7 @@ class ResultTest {
 
 	@Test
 	void shouldPeekIntoFailureIfFailure() {
-		SomeFailureConsumer consumer = mock(SomeFailureConsumer.class);
+		BaseFailureConsumer consumer = mock(BaseFailureConsumer.class);
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
 		result.peekFailure(consumer);
 		verify(consumer).accept(SOME_FAILURE);
@@ -102,7 +102,7 @@ class ResultTest {
 
 	@Test
 	void shouldNotPeekIntoFailureIfResult() {
-		SomeFailureConsumer consumer = mock(SomeFailureConsumer.class);
+		BaseFailureConsumer consumer = mock(BaseFailureConsumer.class);
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
 		result.peekFailure(consumer);
 		verify(consumer, never()).accept(any());
@@ -111,77 +111,77 @@ class ResultTest {
 	@Test
 	void shouldPassOnResultIfFilterMatches() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		Result<SomeResult, SomeFailure> filteredResult = result.filter(someResult -> true, SOME_FAILURE);
+		Result<SomeResult, SomeFailure> filteredResult = result.filter((BaseResult baseResult) -> true, SOME_FAILURE);
 		assertThat(filteredResult).contains(SOME_RESULT);
 	}
 
 	@Test
 	void shouldFilterOutResultIfFilterDoesNotMatch() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		Result<SomeResult, SomeFailure> filteredResult = result.filter(someResult -> false, SOME_FAILURE);
+		Result<SomeResult, SomeFailure> filteredResult = result.filter((BaseResult baseResult) -> false, SOME_FAILURE);
 		assertThat(filteredResult).containsFailure(SOME_FAILURE);
 	}
 
 	@Test
 	void shouldNotFilterFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		Result<SomeResult, SomeFailure> filteredResult = result.filter(someResult -> true, SECOND_FAILURE);
+		Result<SomeResult, SomeFailure> filteredResult = result.filter((BaseResult baseResult) -> true, SECOND_FAILURE);
 		assertThat(filteredResult).containsFailure(SOME_FAILURE);
 	}
 
 	@Test
 	void shouldMapResult() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		Result<AnotherResult, SomeFailure> mappedResult = result.map(someResult -> ANOTHER_RESULT);
+		Result<BaseResult, SomeFailure> mappedResult = result.map((BaseResult baseResult) -> ANOTHER_RESULT);
 		assertThat(mappedResult).contains(ANOTHER_RESULT);
 	}
 
 	@Test
 	void shouldNotMapFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		Result<AnotherResult, SomeFailure> mappedResult = result.map(someResult -> ANOTHER_RESULT);
+		Result<BaseResult, SomeFailure> mappedResult = result.map((BaseResult baseResult) -> ANOTHER_RESULT);
 		assertThat(mappedResult).containsFailure(SOME_FAILURE);
 	}
 
 	@Test
 	void shouldFlatMapResult() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		Result<AnotherResult, SomeFailure> mappedResult = result.flatMap(someResult -> Result.of(ANOTHER_RESULT));
+		Result<BaseResult, SomeFailure> mappedResult = result.flatMap((BaseResult baseResult) -> Result.of(ANOTHER_RESULT));
 		assertThat(mappedResult).contains(ANOTHER_RESULT);
 	}
 
 	@Test
 	void shouldNotFlatMapFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		Result<AnotherResult, SomeFailure> mappedResult = result.flatMap(someResult -> Result.of(ANOTHER_RESULT));
+		Result<BaseResult, SomeFailure> mappedResult = result.flatMap((BaseResult baseResult) -> Result.of(ANOTHER_RESULT));
 		assertThat(mappedResult).containsFailure(SOME_FAILURE);
 	}
 
 	@Test
 	void shouldReturnResultFromOrIfPresent() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		Result<SomeResult, AnotherFailure> anotherResult = result.or(someFailure -> Result.fail(ANOTHER_FAILURE));
+		Result<SomeResult, AnotherFailure> anotherResult = result.or((BaseFailure baseFailure) -> Result.fail(ANOTHER_FAILURE));
 		assertThat(anotherResult).contains(SOME_RESULT);
 	}
 
 	@Test
 	void shouldReturnAnotherFailureFromOrIfFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		Result<SomeResult, AnotherFailure> anotherResult = result.or(someFailure -> Result.fail(ANOTHER_FAILURE));
+		Result<SomeResult, AnotherFailure> anotherResult = result.or((BaseFailure baseFailure) -> Result.fail(ANOTHER_FAILURE));
 		assertThat(anotherResult).containsFailure(ANOTHER_FAILURE);
 	}
 
 	@Test
 	void shouldReturnResultFromOrElseGetIfPresent() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		SomeResult someResult = result.orElseGet(someFailure -> SECOND_RESULT);
+		SomeResult someResult = result.orElseGet((BaseFailure baseFailure) -> SECOND_RESULT);
 		assertThat(someResult).isSameAs(SOME_RESULT);
 	}
 
 	@Test
 	void shouldReturnAnotherResultFromOrElseGetIfFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		SomeResult someResult = result.orElseGet(someFailure -> SECOND_RESULT);
+		SomeResult someResult = result.orElseGet((BaseFailure baseFailure) -> SECOND_RESULT);
 		assertThat(someResult).isSameAs(SECOND_RESULT);
 	}
 
@@ -195,7 +195,7 @@ class ResultTest {
 	@Test
 	void shouldThrowFromOrElseThrowIfFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		Throwable throwable = catchThrowable(() -> result.orElseThrow(someFailure -> SOME_EXCEPTION));
+		Throwable throwable = catchThrowable(() -> result.orElseThrow((BaseFailure baseFailure) -> SOME_EXCEPTION));
 		assertThat(throwable).isInstanceOf(SomeException.class);
 	}
 
@@ -241,10 +241,10 @@ class ResultTest {
 		}
 	}
 
-	private interface SomeResultConsumer extends Consumer<SomeResult> {
+	private interface BaseResultConsumer extends Consumer<BaseResult> {
 	}
 
-	private interface SomeFailureConsumer extends Consumer<SomeFailure> {
+	private interface BaseFailureConsumer extends Consumer<BaseFailure> {
 	}
 
 	private static final class SomeException extends RuntimeException {

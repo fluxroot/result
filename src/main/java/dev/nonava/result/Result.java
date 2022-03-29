@@ -128,7 +128,7 @@ public final class Result<R, F> {
 	 * @param action the action to be performed, if a result is present
 	 * @throws NullPointerException if the given action is {@code null}
 	 */
-	public void ifPresent(Consumer<R> action) {
+	public void ifPresent(Consumer<? super R> action) {
 		requireNonNull(action);
 		if (isPresent()) {
 			action.accept(result);
@@ -141,7 +141,7 @@ public final class Result<R, F> {
 	 * @param failureAction the failure action to be performed, if a failure is present
 	 * @throws NullPointerException if the given failure action is {@code null}
 	 */
-	public void ifFailure(Consumer<F> failureAction) {
+	public void ifFailure(Consumer<? super F> failureAction) {
 		requireNonNull(failureAction);
 		if (isFailure()) {
 			failureAction.accept(failure);
@@ -156,7 +156,7 @@ public final class Result<R, F> {
 	 * @return a {@code Result} containing either the result or failure of this {@code Result}
 	 * @throws NullPointerException if the given action is {@code null}
 	 */
-	public Result<R, F> peek(Consumer<R> action) {
+	public Result<R, F> peek(Consumer<? super R> action) {
 		requireNonNull(action);
 		if (isPresent()) {
 			action.accept(result);
@@ -172,7 +172,7 @@ public final class Result<R, F> {
 	 * @return a {@code Result} containing either the result or failure of this {@code Result}
 	 * @throws NullPointerException if the given failure action is {@code null}
 	 */
-	public Result<R, F> peekFailure(Consumer<F> failureAction) {
+	public Result<R, F> peekFailure(Consumer<? super F> failureAction) {
 		requireNonNull(failureAction);
 		if (isFailure()) {
 			failureAction.accept(failure);
@@ -194,7 +194,7 @@ public final class Result<R, F> {
 	 * predicate.
 	 * @throws NullPointerException if the given predicate or the given new failure is {@code null}
 	 */
-	public Result<R, F> filter(Predicate<R> predicate, F newFailure) {
+	public Result<R, F> filter(Predicate<? super R> predicate, F newFailure) {
 		requireNonNull(predicate);
 		requireNonNull(newFailure);
 		if (isPresent()) {
@@ -216,7 +216,7 @@ public final class Result<R, F> {
 	 * a result is present
 	 * @throws NullPointerException if the given mapping function is {@code null}
 	 */
-	public <S> Result<S, F> map(Function<R, S> mapper) {
+	public <S> Result<S, F> map(Function<? super R, ? extends S> mapper) {
 		requireNonNull(mapper);
 		if (isPresent()) {
 			return of(mapper.apply(result));
@@ -235,10 +235,12 @@ public final class Result<R, F> {
 	 * @return the {@code Result} produced by applying the given mapping function to the result, if a result is present
 	 * @throws NullPointerException if the given mapping function is {@code null}
 	 */
-	public <S> Result<S, F> flatMap(Function<R, Result<S, F>> mapper) {
+	public <S> Result<S, F> flatMap(Function<? super R, ? extends Result<? extends S, ? extends F>> mapper) {
 		requireNonNull(mapper);
 		if (isPresent()) {
-			return mapper.apply(result);
+			@SuppressWarnings("unchecked")
+			Result<S, F> r = (Result<S, F>) mapper.apply(result);
+			return r;
 		} else {
 			return fail(failure);
 		}
@@ -256,12 +258,14 @@ public final class Result<R, F> {
 	 * failure mapping function to the failure
 	 * @throws NullPointerException if the given failure mapping function is {@code null}
 	 */
-	public <G> Result<R, G> or(Function<F, Result<R, G>> failureMapper) {
+	public <G> Result<R, G> or(Function<? super F, ? extends Result<? extends R, ? extends G>> failureMapper) {
 		requireNonNull(failureMapper);
 		if (isPresent()) {
 			return of(result);
 		} else {
-			return failureMapper.apply(failure);
+			@SuppressWarnings("unchecked")
+			Result<R, G> r = (Result<R, G>) failureMapper.apply(failure);
+			return r;
 		}
 	}
 
@@ -276,7 +280,7 @@ public final class Result<R, F> {
 	 * mapping function to the failure
 	 * @throws NullPointerException if the given failure mapping function is {@code null}
 	 */
-	public R orElseGet(Function<F, R> failureMapper) {
+	public R orElseGet(Function<? super F, ? extends R> failureMapper) {
 		requireNonNull(failureMapper);
 		if (isPresent()) {
 			return result;
@@ -298,7 +302,7 @@ public final class Result<R, F> {
 	 * @throws E                    if a failure is present
 	 * @throws NullPointerException if the given failure mapping function is {@code null}
 	 */
-	public <E extends Throwable> R orElseThrow(Function<F, E> failureMapper) throws E {
+	public <E extends Throwable> R orElseThrow(Function<? super F, ? extends E> failureMapper) throws E {
 		requireNonNull(failureMapper);
 		if (isPresent()) {
 			return result;
