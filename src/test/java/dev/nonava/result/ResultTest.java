@@ -146,28 +146,32 @@ class ResultTest {
 	@Test
 	void shouldFlatMapResult() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		Result<BaseResult, SomeFailure> mappedResult = result.flatMap((BaseResult baseResult) -> Result.of(ANOTHER_RESULT));
+		Result<BaseResult, SomeFailure> mappedResult = result
+				.flatMap((BaseResult baseResult) -> Result.of(ANOTHER_RESULT));
 		assertThat(mappedResult).contains(ANOTHER_RESULT);
 	}
 
 	@Test
 	void shouldNotFlatMapFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		Result<BaseResult, SomeFailure> mappedResult = result.flatMap((BaseResult baseResult) -> Result.of(ANOTHER_RESULT));
+		Result<BaseResult, SomeFailure> mappedResult = result
+				.flatMap((BaseResult baseResult) -> Result.of(ANOTHER_RESULT));
 		assertThat(mappedResult).containsFailure(SOME_FAILURE);
 	}
 
 	@Test
 	void shouldReturnResultFromOrIfPresent() {
 		Result<SomeResult, SomeFailure> result = Result.of(SOME_RESULT);
-		Result<SomeResult, AnotherFailure> anotherResult = result.or((BaseFailure baseFailure) -> Result.fail(ANOTHER_FAILURE));
+		Result<SomeResult, AnotherFailure> anotherResult = result
+				.or((BaseFailure baseFailure) -> Result.fail(ANOTHER_FAILURE));
 		assertThat(anotherResult).contains(SOME_RESULT);
 	}
 
 	@Test
 	void shouldReturnAnotherFailureFromOrIfFailure() {
 		Result<SomeResult, SomeFailure> result = Result.fail(SOME_FAILURE);
-		Result<SomeResult, AnotherFailure> anotherResult = result.or((BaseFailure baseFailure) -> Result.fail(ANOTHER_FAILURE));
+		Result<SomeResult, AnotherFailure> anotherResult = result
+				.or((BaseFailure baseFailure) -> Result.fail(ANOTHER_FAILURE));
 		assertThat(anotherResult).containsFailure(ANOTHER_FAILURE);
 	}
 
