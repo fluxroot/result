@@ -8,4 +8,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 8
-      - run: ./gradlew build
+      - run: ./gradlew build publish
+        env:
+          ORG_GRADLE_PROJECT_OSSRHUSERNAME: ${{secrets.ossrhUsername}}
+          ORG_GRADLE_PROJECT_OSSRHPASSWORD: ${{secrets.ossrhPassword}}
