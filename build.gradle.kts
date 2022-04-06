@@ -4,6 +4,7 @@ plugins {
 	checkstyle
 	pmd
 	alias(libs.plugins.spotbugs)
+	`maven-publish`
 }
 
 group = "io.github.fluxroot"
@@ -25,6 +26,7 @@ java {
 		languageVersion.set(JavaLanguageVersion.of(8))
 	}
 	withSourcesJar()
+	withJavadocJar()
 }
 
 tasks.test {
@@ -49,4 +51,46 @@ tasks.pmdTest {
 tasks.pmdTestFixtures {
 	ruleSets = listOf()
 	ruleSetConfig = resources.text.fromFile("$rootDir/config/pmd/testFixtures-ruleset.xml")
+}
+
+publishing {
+	publications {
+		create<MavenPublication>("mavenJava") {
+			pom {
+				name.set("Result")
+				description.set("A Result object implementation for Java")
+				url.set("https://github.com/fluxroot/result")
+				licenses {
+					license {
+						name.set("MIT License")
+						url.set("https://opensource.org/licenses/MIT")
+					}
+				}
+				developers {
+					developer {
+						id.set("fluxroot")
+						name.set("Phokham Nonava")
+					}
+				}
+				scm {
+					connection.set("scm:git:git@github.com:fluxroot/result.git")
+					developerConnection.set("scm:git:git@github.com:fluxroot/result.git")
+					url.set("https://github.com/fluxroot/result")
+				}
+			}
+		}
+	}
+	repositories {
+		maven {
+			val releasesRepository = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+			val snapshotRepository = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+			url = if (version.toString().endsWith("SNAPSHOT")) snapshotRepository else releasesRepository
+			credentials {
+				val ossrhUsername: String by project
+				val ossrhPassword: String by project
+				username = ossrhUsername
+				password = ossrhPassword
+			}
+		}
+	}
 }
