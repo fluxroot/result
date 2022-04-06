@@ -10,5 +10,5 @@ jobs:
           java-version: 8
       - run: ./gradlew build publish
         env:
-          ORG_GRADLE_PROJECT_OSSRHUSERNAME: ${{secrets.ossrhUsername}}
-          ORG_GRADLE_PROJECT_OSSRHPASSWORD: ${{secrets.ossrhPassword}}
+          ORG_GRADLE_PROJECT_ossrhUsername: ${{secrets.ossrhUsername}}
+          ORG_GRADLE_PROJECT_ossrhPassword: ${{secrets.ossrhPassword}}
