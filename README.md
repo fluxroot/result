@@ -14,7 +14,7 @@ Use the following code snippet in Maven:
 
 ```xml
 <dependency>
-    <groupId>dev.nonava.result</groupId>
+    <groupId>io.github.fluxroot</groupId>
     <artifactId>result</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -24,7 +24,7 @@ Use the following code snippet in Gradle:
 
 ```kotlin
 dependencies {
-    implementation("dev.nonava.result:result:1.0.0")
+    implementation("io.github.fluxroot:result:1.0.0")
 }
 ```
 

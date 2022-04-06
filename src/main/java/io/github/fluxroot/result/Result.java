@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-package dev.nonava.result;
+package io.github.fluxroot.result;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;

@@ -5,7 +5,7 @@
  * found in the LICENSE file.
  */
 
-package dev.nonava.result;
+package io.github.fluxroot.result;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assertions;

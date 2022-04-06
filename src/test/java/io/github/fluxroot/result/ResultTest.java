@@ -5,13 +5,13 @@
  * found in the LICENSE file.
  */
 
-package dev.nonava.result;
+package io.github.fluxroot.result;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.function.Consumer;
 
-import static dev.nonava.result.ResultAssert.assertThat;
+import static io.github.fluxroot.result.ResultAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.any;

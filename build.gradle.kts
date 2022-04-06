@@ -6,7 +6,7 @@ plugins {
 	alias(libs.plugins.spotbugs)
 }
 
-group = "dev.nonava.result"
+group = "io.github.fluxroot"
 version = "1.0.0-SNAPSHOT"
 
 repositories {
