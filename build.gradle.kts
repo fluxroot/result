@@ -57,6 +57,7 @@ tasks.pmdTestFixtures {
 publishing {
 	publications {
 		create<MavenPublication>("mavenJava") {
+			from(components["java"])
 			pom {
 				name.set("Result")
 				description.set("A Result object implementation for Java")
