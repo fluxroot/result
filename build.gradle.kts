@@ -87,10 +87,12 @@ publishing {
 			val snapshotRepository = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 			url = if (version.toString().endsWith("SNAPSHOT")) snapshotRepository else releasesRepository
 			credentials {
-				val ossrhUsername: String by project
-				val ossrhPassword: String by project
-				username = ossrhUsername
-				password = ossrhPassword
+				val ossrhUsername: String? by project
+				val ossrhPassword: String? by project
+				if (ossrhUsername != null && ossrhPassword != null) {
+					username = ossrhUsername
+					password = ossrhPassword
+				}
 			}
 		}
 	}
@@ -100,6 +102,8 @@ signing {
 	val signingKeyId: String? by project
 	val signingKey: String? by project
 	val signingPassword: String? by project
-	useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-	sign(publishing.publications["mavenJava"])
+	if (signingKeyId != null && signingKey != null && signingPassword != null) {
+		useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+		sign(publishing.publications["mavenJava"])
+	}
 }
