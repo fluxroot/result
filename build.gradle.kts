@@ -60,7 +60,7 @@ publishing {
 			from(components["java"])
 			pom {
 				name.set("Result")
-				description.set("A Result object implementation for Java")
+				description.set("A Result monad implementation for Java")
 				url.set("https://github.com/fluxroot/result")
 				licenses {
 					license {
