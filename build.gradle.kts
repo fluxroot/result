@@ -11,10 +11,6 @@ plugins {
 group = "io.github.fluxroot"
 version = "1.1.0-SNAPSHOT"
 
-repositories {
-	mavenCentral()
-}
-
 dependencies {
 	testImplementation(libs.junit)
 	testImplementation(libs.assertj)
