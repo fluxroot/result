@@ -26,6 +26,12 @@ java {
 	withJavadocJar()
 }
 
+tasks.jar {
+	manifest {
+		attributes("Automatic-Module-Name" to "io.github.fluxroot.result")
+	}
+}
+
 tasks.test {
 	useJUnitPlatform()
 }
